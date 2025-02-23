@@ -2,6 +2,8 @@ import streamlit as st
 from datetime import datetime
 import requests
 import pandas as pd
+import matplotlib.pyplot as plt
+
 
 
 API_URL = "http://localhost:8000"
@@ -40,5 +42,16 @@ def analytics_tab():
         df_sorted["Total"] = df_sorted["Total"].map("{:.2f}".format)
         df_sorted["Percentage"] = df_sorted["Percentage"].map("{:.2f}".format)
         st.table(df_sorted)
+        fig, ax = plt.subplots()
+        ax.pie(
+            df["Total"],
+            labels=df["Category"],
+            autopct='%1.1f%%',
+            startangle=90,
+            colors=plt.cm.Paired.colors
+        )
+        ax.axis("equal")  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+        st.pyplot(fig)
 
 
